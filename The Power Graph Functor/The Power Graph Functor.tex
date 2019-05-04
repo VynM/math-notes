@@ -1,0 +1,107 @@
+\documentclass[11pt, a4paper]{article}
+\usepackage[top = 20mm, bottom = 18mm, left=15mm, right = 15mm]{geometry}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+\usepackage{titlesec, blindtext, color}
+\definecolor{gray75}{gray}{0.75}
+\newcommand{\hsp}{\hspace{10pt}}
+
+\titleformat{\section}[hang]{\LARGE\bfseries}{\thesection\hsp\textcolor{gray}{|}\hsp}{0pt}{\LARGE\bfseries}
+
+\usepackage{graphicx}
+\usepackage{amsmath, amsfonts, amssymb, amsthm}
+\usepackage{physics}
+\usepackage{cancel}
+\usepackage{hyphenat}
+\usepackage[bookmarksopen=true]{hyperref}
+\usepackage{mathtools}
+\usepackage{pgfplots}
+\usepackage{float}
+\hypersetup{colorlinks, linkcolor = [RGB]{66, 128, 128}, urlcolor = red, linktocpage = true}
+\usepackage{enumitem}
+
+\newcommand{\cat}[1]{\mathsf{#1}}
+\let\op\relax
+\newcommand{\op}{^\mathsf{op}}
+\DeclareMathOperator{\Ob}{Ob}
+\newcommand{\fun}[1]{\mathcal{#1}}
+\let\Im\relax
+\DeclareMathOperator{\Im}{Im}
+\let\ker\relax
+\DeclareMathOperator{\Ker}{Ker}
+\let\hom\relax
+\DeclareMathOperator{\Sym}{Sym}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\Inn}{Inn}
+\DeclareMathOperator{\Orb}{Orb}
+\DeclareMathOperator{\Stab}{Stab}
+
+\newtheorem{Theorem}{Theorem}[section]
+\newtheorem{Lemma}[Theorem]{Lemma}
+\newtheorem{Corollary}[Theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{Definition}{Definition}
+\newtheorem{Example}[Theorem]{Example}
+
+\usepackage[T1]{fontenc}
+\usepackage[math]{iwona}
+\usepackage[sfdefault,lining,book,scale=0.92]{FiraSans}
+
+\begin{document}
+
+\title{The Power Graph Functor}
+
+\author{}
+ 
+\maketitle
+
+\section{Power Graphs of Groups}
+
+\subsection{Introduction}\label{sec:Intro}
+The \emph{(directed) power graph} of a group $G$ is defined as the graph $\fun P(G)$ with the elements of $G$ as its vertices and directed edge set $E(\fun P(G)) = \qty{\, (x,x^k) \mid x \in G,\ k \in \mathbb N_0 \,}$. Thus, $x \sim y$ if and only if $y = x^k\ \exists k \in \mathbb N_0$. Note that this is different from the usual definition where it is additionally required that $x$ and $x^k$ be distinct, in order to avoid self-loops in the graph. The reason for our modification of the definition will become clear when we discuss the relation between the homomorphisms of groups and those of their power graphs.
+
+\begin{Example}\mbox{}
+\begin{enumerate}
+\item If $p$ is a prime, then the power graph $\fun P(\mathbb Z_p)$ has $p$ vertices of which the $p - 1$ vertices $1, 2, \ldots, p - 1$ corresponding to the non-identity elements of $\mathbb Z_p$ are mutually adjacent and are all adjacent to the vertex $0$. All vertices have self-loops on them.
+
+\item The power graph $\fun P(\mathbb Z_2^n)$ of the elementary $2$-group is an in-star on $2^n$ vertices -- the vertex $0$ corresponding to the identity element is the central vertex, to which all other vertices are adjacent. All of the $2^n - 1$ other vertices are mutually non-adjacent. All vertices have self-loops on them.
+\end{enumerate}
+\end{Example}
+
+\subsection{The category $\cat{PDigrph}$}
+A \emph{pointed digraph} is a pair $(D, v)$ consisting of a digraph $D$ and a vertex $v$ of $D$ called the \emph{distinguished vertex} of $D$. A pointed digraph homomorphism from $(D,v)$ to $(F,w)$ is a map $f\colon V(D) \to V(F)$ such that $(x,y) \in V(D) \implies (f(x), f(y)) \in V(F)$ and $f(v) = w$. That is, it is a digraph homomorphism $f\colon D \to F$ such that $f(v) = w$.
+
+The category $\cat{PDigrph}$ has pointed digraphs as its objects and pointed digraph homomorphisms as its morphisms.
+
+\subsection{The power graph functor}
+The map that sends a group $G$ to its power graph $\fun P(G)$ defines a functor from $\cat{Grp}$ to $\cat{Digrph}$ if we define $\fun Pf \colon \fun P(G) \to \fun P(H)$ as $\fun Pf = f$ for every group morphism $f \colon G \to H$. For any two vertices $x$ and $y$ of $\fun P(G)$, $x \sim y \iff y = x^k\ \exists k \in \mathbb N_0$. Then $f(y) = f(x)^k \implies f(x) \sim f(y)$ in $\fun P(H)$. It is possible that $f(x) = f(y)$ in $H$. Then $f(x)$ and $f(y)$ would not be adjacent in $\fun P(H)$ unless there is a self-loop on $f(x)$.
+
+We can also consider $\fun P$ as a functor from $\cat{Grp}$ to $\cat{PDigrph}$ mapping each group $G$ to the pointed digraph $(\fun P(G), 1_G)$, and $\fun Pf = f$ for every morphism $f \colon G \to H$ in $\cat{Grp}$. Since $f$ is a digraph morphism (as seen previously) and $f(1_G) = 1_H$, it is indeed a pointed digraph morphism.
+
+It is arguably more natural to consider $\cat{PDigraph}$ rather than $\cat{Digrph}$ for a number of reasons. Firstly groups are \emph{pointed sets} (the identity element being the distinguished element). Secondly, the trivial group is a zero object in $\cat{Grp}$ -- both an initial and a final object -- however, $\cat{Digrph}$ has no initial object, let alone a zero object. On the other hand, the single-vertex edgeless graph is the initial object of $\cat{PDigrph}$. Additionally, if modify $\cat{PDigrph}$ slightly so that all its digraphs have a self-loop on every vertex, then the single-vertex graph with a self-loop on its vertex is the zero object, and it is the power graph of the trivial group. Finally, for essentially the same reason, it is easily seen that $\fun P \colon \cat{Grp} \to \cat{Digrph}$ can have no left or right adjoint -- this is shown by a counting argument involving the trivial group.
+
+\section{Adjoint Functors}\label{sec:AdjFun}
+If $\fun F \colon \cat C \to \cat D$ and $\fun G \colon \cat D \to \cat C$ are two functors between categories $\cat C$ and $\cat D$, then $\fun F$ is said to be \emph{left adjoint} to $\fun G$, which is said to be \emph{right adjoint} to $\fun F$, if
+\begin{equation*}
+\Hom(\fun F(C), D) \cong \Hom(C, \fun G(D))
+\end{equation*}
+naturally in every $C \in \cat C$ and $D \in \cat D$.
+
+\noindent {\small \color{gray}Expand with full definition including commutative diagram.}
+
+\subsection{Adjoints of $\fun P$}
+Suppose that $\fun L \colon \cat{PDigrph} \to \cat{Grp}$ is left adjoint to $\fun P$. Then necessarily, $|\Hom(\fun L(D), G)| = \Hom(D, \fun P(G))$ for every group $G$ and every pointed digraph $D$.
+
+\begin{enumerate}
+\item Let $S_{n \to 1^*}$ denote the in-star on $n + 1$ vertices whose central vertex $v$ is distinguished. Then a morphism $f \colon D \to \fun P(G)$ for any graph $G$ sends $v$ to $1_G$ and each of the other vertices to any vertex of $\fun P(G)$. Thus, $$|\Hom(D, \fun P(G))| = n^{|G|} \implies |\Hom(\fun L(D), G)| = n^{|G|}.$$ An obvious choice for $\fun L(D)$ then is the free group $F_S$ on the set $S = V(D) \setminus \{v\}$. Since each set map from $S$ to $G$ defines a unique group homomorphism from $F_S$ to $G$, and this is exhaustive, $|\Hom(\fun L(D), G)| = n^{|G|}$.
+
+\item Let $D$ be the pointed digraph with vertices $x, y, v$ and edges $(x,v)$, $(x,y)$, $(y,v)$, where $v$ is the distinguished vertex. Then $|\Hom(D, \fun P(\mathbb Z_2))| = 3$. However, there exists no group $\fun L(D)$ with $|\Hom(\fun L(D), \mathbb Z_2)| = 3$. For, non-trivial homomorphisms from $\fun L(D)$ to $\mathbb Z_2$ are epimorphisms, and are in one-to-one correspondence with index $2$ (and hence normal) subgroups of $\mathbb L(D)$, which are the kernels of these epimorphisms -- but there exists no group with exactly two subgroups of index $2$, so the number of such non-trivial homomorphisms can never be $2$ (so that the total number of homomorphisms from $\fun L(D)$ to $\mathbb Z_2$ cannot be $3$).
+\end{enumerate}
+Point 2 shows that $\fun P$ has no left adjoint.
+
+\noindent{\small \color{gray}Consider the existence of adjoints more generally using the adjoint functor theorem or the like, and determine what further (minimal) modifications to $\cat{PDigrph}$ are necessary to ensure the existence of adjoints to $\fun P$.
+
+\end{document}
