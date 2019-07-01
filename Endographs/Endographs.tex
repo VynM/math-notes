@@ -1,0 +1,177 @@
+\documentclass[11pt, a4paper]{article}
+\usepackage[top = 20mm, bottom = 18mm, left=15mm, right = 15mm]{geometry}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+\usepackage{titlesec, blindtext, color}
+\definecolor{gray75}{gray}{0.75}
+\newcommand{\hsp}{\hspace{10pt}}
+
+\titleformat{\section}[hang]{\LARGE\bfseries}{\thesection\hsp\textcolor{gray}{|}\hsp}{0pt}{\LARGE\bfseries}
+
+\usepackage{graphicx}
+\usepackage{amsmath, amsfonts, amssymb, amsthm}
+\usepackage[all]{xy}
+\usepackage{physics}
+\usepackage{cancel}
+\usepackage{hyphenat}
+\usepackage[bookmarksopen=true]{hyperref}
+\usepackage{mathtools}
+\usepackage{pgfplots}
+\usepackage{float}
+\hypersetup{colorlinks, linkcolor = [RGB]{66, 128, 128}, urlcolor = red, linktocpage = true}
+\usepackage{enumitem, typed-checklist}
+
+\newcommand{\nth}{\textsuperscript{th}}
+\newcommand{\cat}[1]{\mathsf{#1}}
+\let\op\relax
+\newcommand{\op}{^\mathsf{op}}
+\DeclareMathOperator{\Ob}{Ob}
+\newcommand{\fun}[1]{\mathcal{#1}}
+\let\Im\relax
+\DeclareMathOperator{\Im}{Im}
+\let\ker\relax
+\DeclareMathOperator{\Ker}{Ker}
+\let\hom\relax
+\DeclareMathOperator{\Sym}{Sym}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\Inn}{Inn}
+\DeclareMathOperator{\Orb}{Orb}
+\DeclareMathOperator{\Stab}{Stab}
+
+\newtheorem{Theorem}{Theorem}[section]
+\newtheorem{Lemma}[Theorem]{Lemma}
+\newtheorem{Corollary}[Theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{Definition}{Definition}
+\newtheorem{Example}[Theorem]{Example}
+
+\usepackage[T1]{fontenc}
+\usepackage[math]{iwona}
+\usepackage[sfdefault,lining,book,scale=0.92]{FiraSans}
+
+\title{\scshape\bfseries Endographs}
+\author{}
+
+
+\begin{document}
+\maketitle
+
+\section{Descending Endomorphisms}\label{sec:DescEnd}
+\subsection{Preliminary results}\label{subsec:Prelims}
+
+\begin{Definition}\label{def:DescEnd}
+An endomorphism $\delta$ of a group $G$ is a \emph{descending endomorphism} if for every quotient group $Q$ of $G$, with canonical projection $\varphi \colon G \to Q$, there exists an endomorphism $\delta_*$ of $Q$ that makes the following diagram commute.
+\begin{equation*}
+\xymatrix{
+	G \ar[r]^{\delta} \ar[d]_{\varphi} & G \ar[d]^{\varphi}\\
+	Q \ar[r]_{\delta_*} & Q
+}
+\end{equation*}
+Then $\delta_*$ is unique and is said to be the \emph{descended endomorphism} or \emph{descent} of $\delta$ along $\varphi$, or the endomorphism \emph{induced by} $\delta$.
+\end{Definition}
+
+It is clear that given any homomorphism from a group, every descending endomorphism of the group induces an endomorphism of the image. Observe that the homomorphism also maps the image and kernel of every descending endomorphism to the image and kernel, respectively, of its induced endomorphism. The following result shows that the descending property of an endomorphism is inherited by its induced endomorphism. Thus, the descending endomorphisms of a group are, in this sense, exactly those endomorphisms that are preserved by group morphisms.
+
+\begin{Theorem}\label{thm:HerDescEnd}
+Let $G$ be a group and $Q$ a quotient group of $G$. If $\delta$ is a descending endomorphism of $G$, then the induced endomorphism $\delta_*$ of $Q$ is also descending.
+\end{Theorem}
+
+\begin{proof}
+Let $K$ be any quotient group of $Q$ and let $\varphi\colon G \to Q$ and $\psi\colon Q \to K$ be the canonical projections. Then $K$ is also a quotient group of $G$ and $\psi \circ \varphi$ is the canonical projection of $G$ onto $K$. Thus, $\delta$ induces an endomorphism $\delta_{**}$ of $K$ that makes the outer rectangle of the following diagram commutes.
+\begin{equation*}
+\xymatrix{
+	G \ar[r]^{\delta} \ar[d]_{\varphi} & G \ar[d]^{\varphi}\\
+	Q \ar[r]^{\delta_*} \ar[d]_{\psi} & Q \ar[d]^{\psi}\\
+	K \ar[r]_{\delta_{**}} & K
+}
+\end{equation*}
+Since the upper square commutes by definition of $\delta_*$, and $\varphi$ is surjective, it follows that the lower square commutes as well, showing that $\delta_{**}$ is the endomorphism of $K$ induced by $\delta_*$.
+\end{proof}
+
+It is easy to see from the commutative diagram in the definition as well as from Lemma~\ref{lem:DescEnd=NormInv} below that the set of all descending endomorphisms of a group $G$ forms a submonoid of $\End(G)$, the endomorphism monoid of $G$. We shall denote this submonoid by $\End_*(G)$. If $A$ is an additive Abelian group, then $\End(A)$ forms a ring under pointwise addition and composition of endomorphisms. It is again easy to see that in this case, $\End_*(A)$ is a subring of $\End(A)$.
+
+Observe that $\End_*(G)$ is invariant under conjugation by elements of $\Aut(G)$ -- if $\alpha \in \Aut(G)$ and $\delta \in \End_*(G)$, then $\alpha \circ \delta \circ \alpha^{-1} \in \End_*(G)$. This follows from the more general result proved below, by taking $H = G$ and $f = \alpha$.
+
+\begin{Lemma}\label{lem:DescTransfer}
+If $G$ and $H$ are isomorphic groups with an isomorphism $f\colon G \to H$, and $\delta$ is a descending endomorphism of $G$, then $f \circ \delta \circ f^{-1}$ is a descending endomorphism of $H$.
+\end{Lemma}
+\begin{proof}
+Let $\epsilon = f \circ \delta \circ f^{-1}$, which is clearly an endomorphism of $H$. Observe that $f \circ \delta = \epsilon \circ f$, and since $f$ is surjective, this implies that $\epsilon$ is the descent of $\delta$ along $f$. Then by Theorem~\ref{thm:HerDescEnd}, $\epsilon \in \End_*(H)$.
+\end{proof}
+
+The identity automorphism and the trivial endomorphism are always descending endomorphisms. The characterisation of descending endomorphisms given in Lemma~\ref{lem:DescEnd=NormInv} makes it evident that more generally, all inner automorphisms and power endomorphisms are also descending endomorphisms.
+
+\begin{Lemma}\label{lem:DescEnd=NormInv}
+Let $\delta$ be an endomorphism of a group $G$. Then $\delta$ is a descending endomorphism of $G$ if and only if for every normal subgroup $N$ of $G$, $\delta(N) \le N$. $\qed$
+\end{Lemma}
+
+\begin{Corollary}
+If the normal subgroups of a finite group $G$ form a chain under inclusion, then all endomorphisms of $G$ are descending.
+\end{Corollary}
+\begin{proof}
+Since $G$ is finite, its chain of normal subgroups has finite length, say $n$. The result is obvious for $n = 1, 2$. Assume for the sake of induction that the result holds for a group whenever its normal subgroups form a chain of length less than $n$.
+
+Let $\epsilon$ be any endomorphism of $G$. If $\epsilon$ is injective, then it is an automorphism of $G$, and hence maps each normal subgroup of $G$ to a normal subgroup of the same order. But since the normal subgroups form a chain, no two distinct normal subgroups can have the same order, and therefore, $\epsilon$ maps each to itself.
+
+If $\epsilon$ is not injective, let $K = \ker \epsilon$, and consider $G/K$. The canonical projection from $G$ to $G/K$ defines a bijection between the normal subgroups of $G$ containing $K$ and the normal subgroups of $G/K$, and therefore, the normal subgroups of $G/K$ form a chain of length less than $n$ (since $K > 1$).
+
+Define $\epsilon_*\colon G/K \to G/K$ given by $\epsilon_*(gK) = \epsilon(g)K$ for all $g \in G$. This map is a well defined endomorphism of $G/K$, since $K = \ker \epsilon$.
+
+Now let $N$ be any normal subgroup of $G$, so that either $N \le K$ or $K < N$. If $N \le K$, then $\epsilon(N) = 1 \le N$. Otherwise, $N/K$ is a normal subgroup of $G/K$ and by the induction hypothesis, $\epsilon_*(N/K) \le N/K$. Thus, for all $n \in N$, $\epsilon_*(nK) = \epsilon(n)K = mK$ for some $m \in N$, which implies that $m^{-1}\epsilon(n) \in K \le N$, and therefore, $\epsilon(n) \in N$. Thus, $\epsilon(N) \le N$ in this case as well.
+
+Since $\epsilon(N) \le N$ for all $N \unlhd G$, $\epsilon$ is a descending endomorphism by Lemma~\ref{lem:DescEnd=NormInv}.
+\end{proof}
+
+\begin{Example}\label{ex:DescEndS3}
+Consider the non-Abelian group $S_3$ generated by the permutations $r = (123)$ and $s = (12)$.  Since the normal subgroups of $S_3$ form a chain $1 \le \langle r \rangle \le S_3$, every endomorphism of $S_3$ is descending. Let $\delta$ be the endomorphism of $S_3$ that maps $r$ to $1$ and fixes $s$. Then $\delta$ is a descending endomorphism of $S_3$ that is neither an inner automorphism nor a power endomorphism.
+\end{Example}
+
+All endomorphisms of cyclic groups are power endomorphisms, and therefore they are all descending. It is also clear that any descending endomorphism of an Abelian group must map each element to a power of itself, due to invariance of cyclic subgroups. In fact, a stronger statement holds in the case of finitely generated Abelian groups.
+
+\begin{Theorem}\label{thm:FGADescEnd}
+The descending endomorphisms of a finitely generated Abelian group are exactly its power endomorphisms.
+\end{Theorem}
+
+\begin{proof}
+Let $A$ be a finitely generated Abelian group. Then by the fundamental theorem of Abelian groups, $A$ can be written as a direct sum $A = \bigoplus\limits_{i = 1}^n A_i$ where each $A_i$ is cyclic, with generator $a_i$ (say). Let $\delta$ be a descending endomorphism of $A$. Then, $\delta(a_i) = a_i^{m_i}$ for some integer $m_i$, $i = 1, \ldots, n$. Let $a = (a_1, \ldots, a_n)$. Then $\delta(a) = a^m$ for some positive integer $m$. On the other hand, $\delta(a) = \pqty{a_1^{m_1}, \ldots, a_n^{m_n}}$. Equating these, we get $(a_1^{m_1 - m}, \ldots, a_n^{m_n - m}) = 1$, which implies that $a^{m_i} = a^m$ for $i = 1, \ldots, n$. Thus, $\delta$ is the power endomorphism that maps each element of $A$ to its $m$\nth power.
+\end{proof}
+
+\begin{Corollary}\label{cor:NTADescEnd}
+The descending endomorphisms of an Abelian group having at least one element of infinite order are exactly its power endomorphisms.
+\end{Corollary}
+\begin{proof}
+Let $A$ be an Abelian group and $z \in A$ with $|z|$ infinite. Let $\delta$ be a descending endomorphism of $A$. Then $\delta(z) = z^n$ for some integer $n$. Let $a$ be an arbitrary element of $A$ and consider the subgroup $B = \langle z, a\rangle$. Then the restriction $\delta|_B$ is a descending endomorphism of $B$, since every subgroup of $B$ is a (normal) subgroup of $A$. Since $B$ is a finitely generated Abelian group, by Theorem~\ref{thm:FGADescEnd}, there exists an integer $m$ such that $\delta|_B(z) = \delta(z) = z^m$ and $\delta|_B(a) = \delta(a) = a^m$. But $\delta(z) = z^n \implies z^n = z^m \implies m = n$, since $z$ has infinite order. Thus, for every $a \in A$, $\delta(a) = a^n$, and $\delta$ is a power endomorphism.
+\end{proof}
+
+\subsection{Descending endomorphisms of direct products}\label{subsec:End*(HxK)}
+Let $G = HK$ be the direct product of two subgroups $H$ and $K$, and $\delta$ a descending endomorphism of $G$. Since $H$ and $K$ are normal in $G$, the restrictions $\delta|_H$ and $\delta|_K$ are endomorphisms of $H$ and $K$ respectively. We can show that they are in fact descending endomorphisms.
+
+Consider the canonical projection $\varphi \colon G \to G/K$ and isomorphism $f \colon H \to G/K$. Let $\delta_* \in \End_*(G/K)$ be the descent of $\delta$ along $\varphi$. Then $\delta_*(f(h)) = \delta_*(hK) = \delta(h)K = f(\delta|_H(h))$. Thus, $\delta|_H = f^{-1} \circ \delta_* \circ f$, which, by Lemma~\ref{lem:DescTransfer}, is a descending endomorphism of $H$. By symmetry, $\delta|_K$ is a descending endomorphism of $K$.
+
+In other words, any descending endomorphism $\delta$ of $G = HK$ can be written as a pointwise product of a descending endomorphism of $H$ and a descending endomorphism of $K$ (the product being taken after trivially extending both to endomorphisms of $G$). On the other hand, not every such pointwise product defines a descending endomorphism of $G$.
+
+\begin{Example}\label{ex:V4Desc}
+Let $G = \{1, h, k, hk\}$ be the Klein $4$-group. $G$ can be written as the direct product $G = HK$ where $H = \{1, h\}$ and $K = \{1, k\}$. Let $\delta$ be the identity automorphism of $H$, and $\epsilon$ be the trivial endomorphism of $K$. Then their pointwise product $\delta \epsilon$ is an endomorphism of $G$, and $(\delta\epsilon)(hk) = \delta(h)\epsilon(k) = h$. Both $\delta$ and $\epsilon$ are descending endomorphisms of the two respective direct factors, but $\delta\epsilon$ is not a descending endomorphism of $G$, since $N = \{1, hk\} \unlhd G$ but $(\delta\epsilon)(N) = \{1, h\} \not\le N$.
+\end{Example}
+
+\section*{Questions}
+\begin{CheckList}{Task}
+\Task{done}{What happens to the kernel and image of a descendomorphism under other endomorphisms?}
+They respectively get mapped to the kernel and image of the induced endomorphism of the image.
+\Task{started}{Descendomorphisms of direct and semidirect products.}
+Must leave the normal factor(s) invariant, so?
+\Task{started}{Idempotent descendomorphisms.}
+Gives a semidirect decomposition of the group (split SES) and an induced descendomorphism of one factor (the image).
+\Task{open}{Nilpotent descendomorphisms.}
+\Task{open}{Relations between preorder on $G$ defined by descendomorphisms and Green's preorders on $\End(G)$ and $\End_*(G)$.}
+\Task{started}{Is $\End_*(G) \unlhd \End(G)$?}
+$\End_*(G)$ is invariant under conjugation by elements of $\Aut(G)$.
+\Task{started}{Relation between descendomorphisms with the same kernel.}
+Have isomorphic images (subgroups of $G$).
+\Task{open}{If $\epsilon, \delta \in \End_*(G)$, $x,y \in G$ with $\epsilon(x) = y$ and $\delta(y) = x$, what can be said about $x$ and $y$? Are they automorphically equivalent?}
+\end{CheckList}
+
+\end{document}
